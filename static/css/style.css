@@ -3,11 +3,12 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
+    font-size: 1em; /* Default font size for desktop */
 }
 
 p {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
+    font-size: 1em; /* Adjusted for better readability */
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
@@ -28,6 +29,7 @@ a:focus {
     border-radius: 0;
     margin-bottom: 40px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
 }
 
 .navbar-btn {
@@ -78,13 +80,7 @@ a:focus {
 
 #sidebar ul li a {
     padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
+    font-size: 1em; /* Reduced font size for sidebar items */
     display: block;
 }
 
@@ -114,6 +110,7 @@ a[aria-expanded="true"] {
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
+    font-size: 1.1em;
 }
 
 .btn-info {
@@ -143,6 +140,7 @@ a[aria-expanded="true"] {
 .dashboard-card h3 {
     margin-top: 0;
     color: #7386D5;
+    font-size: 1.2em; /* Adjusted heading size */
 }
 
 canvas#signatureCanvas {
@@ -159,29 +157,49 @@ canvas#signatureCanvas {
 }
 
 @media (max-width: 768px) {
+    body {
+        font-size: 0.9em; /* Reduce base font size on mobile */
+    }
+    
+    .navbar {
+        font-size: 1em; /* Smaller navbar font */
+    }
+
+    .dashboard-card h3 {
+        font-size: 1.1em; /* Smaller card heading font */
+    }
+
+    .wrapper {
+        flex-direction: column;
+    }
+
     #sidebar {
         margin-left: -250px;
     }
+    
     #sidebar.active {
         margin-left: 0;
     }
+    
     #sidebarCollapse span {
         display: none;
     }
-}
+    
+    #sidebar ul li a {
+        font-size: 0.9em; /* Smaller sidebar item font */
+    }
 
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
-}
+    .btn-info {
+        font-size: 0.9em; /* Smaller button font */
+    }
 
-.btn-primary:hover {
-    background-color: #0056b3;
+    .alert {
+        font-size: 0.9em; /* Smaller alert text */
+    }
+
+    .policy-document {
+        font-size: 0.9em; /* Adjust document font size */
+    }
 }
 
 /* Icon styles */
@@ -231,4 +249,3 @@ canvas#signatureCanvas {
 .btn-profile, .nav-profile {
     background-image: url('/static/images/profileicon.png');
 }
-
