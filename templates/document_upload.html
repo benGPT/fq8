@@ -20,13 +20,17 @@
                         {{ document_type|replace('_', ' ')|title }}
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <form method="POST" enctype="multipart/form-data" class="flex items-center">
-                            <input type="hidden" name="document_type" value="{{ document_type }}">
-                            <input type="file" name="document" id="{{ document_type }}" class="mr-2">
-                            <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Upload
-                            </button>
-                        </form>
+                        {% if document_type in uploaded_document_types %}
+                            <p class="text-green-600">Document uploaded</p>
+                        {% else %}
+                            <form method="POST" enctype="multipart/form-data" class="flex items-center">
+                                <input type="hidden" name="document_type" value="{{ document_type }}">
+                                <input type="file" name="document" id="{{ document_type }}" class="mr-2">
+                                <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Upload
+                                </button>
+                            </form>
+                        {% endif %} 
                     </dd>
                 </div>
             {% endfor %}

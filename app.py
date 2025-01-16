@@ -35,6 +35,12 @@ class Applicant(db.Model):
     user = db.relationship('User', backref=db.backref('applicant', uselist=False))
     profile = db.relationship('ApplicantProfile', backref='applicant', uselist=False)
     application_form = db.relationship('ApplicationForm', backref='applicant', uselist=False)
+    documents = db.relationship('Document', backref='applicant')
+    audit_declaration = db.relationship('AuditDeclaration', backref='applicant', uselist=False)
+    romn_compliance = db.relationship('ROMNCompliance', backref='applicant', uselist=False)
+    policy_agreement = db.relationship('PolicyAgreement', backref='applicant', uselist=False)
+    interviews = db.relationship('Interview', backref='applicant')
+    offer_letters = db.relationship('OfferLetter', backref='applicant')
 
 class ApplicantProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -142,7 +148,6 @@ class Message(db.Model):
 class Interview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
-    applicant = db.relationship('Applicant', backref='interviews')
     interview_date = db.Column(db.DateTime, nullable=False)
     details = db.Column(db.Text)
     status = db.Column(db.String(20), default='scheduled')
@@ -150,7 +155,6 @@ class Interview(db.Model):
 class OfferLetter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
-    applicant = db.relationship('Applicant', backref='offer_letters')
     file_path = db.Column(db.String(255))
     upload_date = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.String(20), default='pending')
@@ -339,6 +343,7 @@ def document_upload():
         return redirect(url_for('applicant_dashboard'))
     
     documents = Document.query.filter_by(applicant_id=applicant.id).all()
+    uploaded_document_types = [doc.document_type for doc in documents]
     
     if request.method == 'POST':
         document_type = request.form['document_type']
@@ -366,7 +371,7 @@ def document_upload():
         else:
             flash('Invalid file type.', 'error')
     
-    return render_template('document_upload.html', documents=documents)
+    return render_template('document_upload.html', documents=documents, uploaded_document_types=uploaded_document_types)
 
 @app.route('/applicant/application_form', methods=['GET', 'POST'])
 @login_required
@@ -682,11 +687,11 @@ def assign_shift():
             end_time=end_time,
             location=location,
             role=role
-        )
+        )        
         db.session.add(new_shift)
         db.session.commit()
         
-        flash('Shift assigned successfully.', 'success')
+        flash('Shift assigned successfully.','success')
         return redirect(url_for('admin_shifts'))
     
     staff = Staff.query.all()

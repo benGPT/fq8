@@ -13,58 +13,68 @@
                     colors: {
                         primary: '#3B82F6',
                         secondary: '#10B981',
-                    }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
                 }
             }
         }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Poppins', sans-serif;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <div class="flex h-screen bg-gray-100">
+    <div class="flex flex-col md:flex-row min-h-screen bg-gray-100">
         {% if session.get('user_id') %}
             <!-- Sidebar -->
-            <aside class="w-64 bg-sky-500 shadow-md">
+            <aside class="w-full md:w-64 bg-sky-500 shadow-md">
                 <div class="p-4">
-                    <h2 class="text-2xl font-semibold text-gray-800">HROMS</h2>
+                    <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" alt="Miracle Healthcare Recruitment Logo" class="h-16 mx-auto mb-4">
+                    <h2 class="text-2xl font-semibold text-white text-center">HROMS</h2>
                 </div>
                 <nav class="mt-4">
                     {% if session.get('role') == 'admin' %}
-                        <a href="{{ url_for('admin_dashboard') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Dashboard</a>
-                        <a href="{{ url_for('admin_applications') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Applications</a>
-                        <a href="{{ url_for('admin_interviews') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Interviews</a>
-                        <a href="{{ url_for('admin_staff') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Staff Management</a>
-                        <a href="{{ url_for('admin_leaves') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Leave Requests</a>
-                        <a href="{{ url_for('admin_attendance') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Attendance</a>
-                        <a href="{{ url_for('admin_payslips') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Payroll</a>
-                        <a href="{{ url_for('admin_messages') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Messages</a>
-                        <a href="{{ url_for('admin_offer_letters') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Offer Letters</a>
+                        <a href="{{ url_for('admin_dashboard') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Dashboard</a>
+                        <a href="{{ url_for('admin_applications') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Applications</a>
+                        <a href="{{ url_for('admin_interviews') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Interviews</a>
+                        <a href="{{ url_for('admin_staff') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Staff Management</a>
+                        <a href="{{ url_for('admin_leaves') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Leave Requests</a>
+                        <a href="{{ url_for('admin_attendance') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Attendance</a>
+                        <a href="{{ url_for('admin_payslips') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Payroll</a>
+                        <a href="{{ url_for('admin_messages') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Messages</a>
+                        <a href="{{ url_for('admin_offer_letters') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Offer Letters</a>
                     {% elif session.get('role') == 'staff' %}
-                        <a href="{{ url_for('staff_dashboard') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Dashboard</a>
-                        <a href="{{ url_for('staff_profile') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Profile</a>
-                        <a href="{{ url_for('staff_attendance') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Attendance</a>
-                        <a href="{{ url_for('staff_shifts') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Shifts</a>
-                        <a href="{{ url_for('staff_leave') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Leave</a>
-                        <a href="{{ url_for('staff_payslips') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Payslips</a>
+                        <a href="{{ url_for('staff_dashboard') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Dashboard</a>
+                        <a href="{{ url_for('staff_profile') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Profile</a>
+                        <a href="{{ url_for('staff_attendance') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Attendance</a>
+                        <a href="{{ url_for('staff_shifts') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Shifts</a>
+                        <a href="{{ url_for('staff_leave') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Leave</a>
+                        <a href="{{ url_for('staff_payslips') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Payslips</a>
                     {% else %}
-                        <a href="{{ url_for('applicant_dashboard') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Dashboard</a>
-                        <a href="{{ url_for('applicant_profile') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Profile</a>
-                        <a href="{{ url_for('application_form') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Application Form</a>
-                        <a href="{{ url_for('document_upload') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Document Upload</a>
-                        <a href="{{ url_for('audit_declaration') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Audit Declaration</a>
-                        <a href="{{ url_for('romn_compliance') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">ROMN Compliance</a>
-                        <a href="{{ url_for('policy_agreement') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Policy Agreement</a>
-                        <a href="{{ url_for('applicant_interviews') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Interviews</a>
-                        <a href="{{ url_for('applicant_messages') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Messages</a>
-                        <a href="{{ url_for('applicant_offer_letter') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Offer Letter</a>
-                        {% endif %}
-                    <a href="{{ url_for('logout') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Logout</a>
+                        <a href="{{ url_for('applicant_dashboard') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Dashboard</a>
+                        <a href="{{ url_for('applicant_profile') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Profile</a>
+                        <a href="{{ url_for('application_form') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Application Form</a>
+                        <a href="{{ url_for('document_upload') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Document Upload</a>
+                        <a href="{{ url_for('audit_declaration') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Audit Declaration</a>
+                        <a href="{{ url_for('romn_compliance') }}" class="block py-2 px-4 text-white hover:bg-sky-600">ROMN Compliance</a>
+                        <a href="{{ url_for('policy_agreement') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Policy Agreement</a>
+                        <a href="{{ url_for('applicant_interviews') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Interviews</a>
+                        <a href="{{ url_for('applicant_messages') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Messages</a>
+                        <a href="{{ url_for('applicant_offer_letter') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Offer Letter</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Logout</a>
                 </nav>
+                <div class="mt-8 p-4 text-white text-sm">
+                    <p>Contact Us:</p>
+                    <p>Phone: +1 (123) 456-7890</p>
+                    <p>Email: info@miraclehealthcare.com</p>
+                    <p>Address: 123 Healthcare St, London, UK</p>
+                </div>
             </aside>
         {% endif %}
 
@@ -76,16 +86,38 @@
                         <div class="flex space-x-7">
                             <div>
                                 <a href="{{ url_for('home') }}" class="flex items-center py-4 px-2">
+                                    <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" alt="Logo" class="h-8 w-8 mr-2">
                                     <span class="font-semibold text-gray-500 text-lg">Miracle Healthcare Recruitment</span>
                                 </a>
                             </div>
                         </div>
                         <div class="hidden md:flex items-center space-x-3">
                             {% if not session.get('user_id') %}
-                            <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" alt="Logo Medium" class="h-16">
+                                <a href="{{ url_for('login') }}" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-sky-500 hover:text-white transition duration-300">Log In</a>
+                                <a href="{{ url_for('signup') }}" class="py-2 px-2 font-medium text-white bg-sky-500 rounded hover:bg-sky-400 transition duration-300">Sign Up</a>
                             {% endif %}
                         </div>
+                        <!-- Mobile menu button -->
+                        <div class="md:hidden flex items-center">
+                            <button class="outline-none mobile-menu-button">
+                                <svg class="w-6 h-6 text-gray-500 hover:text-sky-500"
+                                    fill="none" stroke-linecap="round" 
+                                    stroke-linejoin="round" stroke-width="2" 
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
+                </div>
+                <!-- Mobile menu -->
+                <div class="hidden mobile-menu">
+                    <ul class="">
+                        {% if not session.get('user_id') %}
+                            <li><a href="{{ url_for('login') }}" class="block text-sm px-2 py-4 hover:bg-sky-500 transition duration-300">Login</a></li>
+                            <li><a href="{{ url_for('signup') }}" class="block text-sm px-2 py-4 hover:bg-sky-500 transition duration-300">Sign Up</a></li>
+                        {% endif %}
+                    </ul>
                 </div>
             </nav>
 
@@ -107,6 +139,7 @@
     </footer>
 
     <script>
+        // Hamburger menu functionality
         const btn = document.querySelector("button.mobile-menu-button");
         const menu = document.querySelector(".mobile-menu");
 
