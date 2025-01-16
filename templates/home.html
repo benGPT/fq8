@@ -5,17 +5,17 @@
 <div class="bg-gradient-to-r from-purple-600 via-pink-600 to-teal-500 text-white py-7 relative">
     <div class="container mx-auto px-6">
         <!-- Logo and Navigation Section -->
-        <div class="flex justify-center items-center mb-12 animate__animated animate__fadeIn animate__delay-1s">
+        <div class="flex justify-center items-center mb-8 animate__animated animate__fadeIn animate__delay-1s">
             <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/headerlogo.png" 
-                 alt="Logo" class="h-16 sm:h-20 lg:h-24 mx-auto">
+                 alt="Logo" class="h-12 sm:h-16 lg:h-20 mx-auto">
             {% if not session.get('user_id') %}
-            <div class="flex space-x-4 sm:space-x-6 justify-center mt-6">
+            <div class="flex space-x-4 sm:space-x-6 justify-center mt-4">
                 <a href="{{ url_for('signup') }}" 
-                   class="bg-white text-teal-600 px-6 py-3 rounded-full text-sm sm:text-lg font-semibold transition-all duration-500 transform hover:scale-105 hover:bg-teal-600 hover:text-white shadow-lg hover:shadow-xl">
+                   class="bg-white text-teal-600 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-500 transform hover:scale-105 hover:bg-teal-600 hover:text-white shadow-lg hover:shadow-xl">
                     Apply Now
                 </a>
                 <a href="{{ url_for('login') }}" 
-                   class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full text-sm sm:text-lg font-semibold transition-all duration-500 transform hover:scale-105 hover:bg-white hover:text-teal-600 shadow-lg hover:shadow-xl">
+                   class="bg-transparent border-2 border-white text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-500 transform hover:scale-105 hover:bg-white hover:text-teal-600 shadow-lg hover:shadow-xl">
                     Login
                 </a>
             </div>
@@ -23,94 +23,94 @@
         </div>
 
         <!-- Hero Heading with Flash and Animation -->
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center mb-6 animate__animated animate__flash animate__delay-2s">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-4 animate__animated animate__flash animate__delay-2s">
             Empowering Healthcare Professionals, Enhancing Careers
         </h1>
-        <p class="text-lg sm:text-xl mb-10 text-center animate__animated animate__fadeIn animate__delay-3s">
+        <p class="text-base sm:text-lg mb-6 text-center animate__animated animate__fadeIn animate__delay-3s">
             Discover the perfect healthcare career opportunities with Miracle Healthcare Recruitment.
         </p>
     </div>
     <!-- Background Circle Animation -->
-    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-purple-600 via-teal-600 to-transparent rounded-t-full animate__animated animate__fadeIn animate__delay-4s"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-purple-600 via-teal-600 to-transparent rounded-t-full animate__animated animate__fadeIn animate__delay-4s"></div>
 </div>
 
 <!-- Section: Why Choose Us with Flash Writeups -->
-<div class="container mx-auto px-6 py-20 animate__animated animate__fadeIn animate__delay-5s">
-    <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-16 text-teal-600">
+<div class="container mx-auto px-6 py-16 animate__animated animate__fadeIn animate__delay-5s">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-12 text-teal-600">
         Why Choose Miracle Healthcare Recruitment?
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
-        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:animate__fadeIn animate__animated animate__flash animate__delay-1s">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:animate__fadeIn animate__animated animate__flash animate__delay-1s">
             <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" 
-                 alt="Logo" class="h-12 mb-4 mx-auto">
-            <h3 class="text-xl font-semibold mb-3 text-center">Expert Matching</h3>
-            <p class="text-gray-700 text-center">Our team ensures the perfect match between healthcare professionals and employers.</p>
+                 alt="Logo" class="h-10 mb-4 mx-auto">
+            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-center">Expert Matching</h3>
+            <p class="text-gray-700 text-center text-sm sm:text-base">Our team ensures the perfect match between healthcare professionals and employers.</p>
         </div>
-        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:animate__fadeIn animate__animated animate__flash animate__delay-2s">
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:animate__fadeIn animate__animated animate__flash animate__delay-2s">
             <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" 
-                 alt="Logo" class="h-12 mb-4 mx-auto">
-            <h3 class="text-xl font-semibold mb-3 text-center">Diverse Positions</h3>
-            <p class="text-gray-700 text-center">Explore various roles across hospitals, clinics, and medical facilities.</p>
+                 alt="Logo" class="h-10 mb-4 mx-auto">
+            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-center">Diverse Positions</h3>
+            <p class="text-gray-700 text-center text-sm sm:text-base">Explore various roles across hospitals, clinics, and medical facilities.</p>
         </div>
-        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:animate__fadeIn animate__animated animate__flash animate__delay-3s">
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:animate__fadeIn animate__animated animate__flash animate__delay-3s">
             <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" 
-                 alt="Logo" class="h-12 mb-4 mx-auto">
-            <h3 class="text-xl font-semibold mb-3 text-center">Career Growth</h3>
-            <p class="text-gray-700 text-center">We are committed to fostering continuous professional development.</p>
+                 alt="Logo" class="h-10 mb-4 mx-auto">
+            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-center">Career Growth</h3>
+            <p class="text-gray-700 text-center text-sm sm:text-base">We are committed to fostering continuous professional development.</p>
         </div>
     </div>
 </div>
 
 <!-- About Section with Flash Text and Background Animation -->
-<div class="bg-gray-50 py-24 relative">
+<div class="bg-gray-50 py-20 relative">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-16 text-teal-600 animate__animated animate__flash animate__delay-1s">
+        <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-12 text-teal-600 animate__animated animate__flash animate__delay-1s">
             About Miracle Healthcare Recruitment
         </h2>
-        <div class="flex justify-center mb-8 animate__animated animate__fadeIn animate__delay-2s">
+        <div class="flex justify-center mb-6 animate__animated animate__fadeIn animate__delay-2s">
             <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" 
-                 alt="Logo" class="h-16">
+                 alt="Logo" class="h-14">
         </div>
-        <p class="text-gray-700 max-w-2xl mx-auto text-center mb-8 text-lg sm:text-xl animate__animated animate__fadeIn animate__delay-3s">
+        <p class="text-gray-700 max-w-2xl mx-auto text-center mb-6 text-sm sm:text-lg animate__animated animate__fadeIn animate__delay-3s">
             At Miracle Healthcare Recruitment, we connect talented healthcare professionals with exceptional career opportunities. With a team of expert recruiters, we bridge the gap between healthcare facilities and skilled individuals, ensuring both sides thrive.
         </p>
-        <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-gray-50 to-gray-50"></div>
-        <p class="text-gray-700 max-w-2xl mx-auto text-center text-lg sm:text-xl animate__animated animate__flash animate__delay-4s">
+        <div class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent via-gray-50 to-gray-50"></div>
+        <p class="text-gray-700 max-w-2xl mx-auto text-center text-sm sm:text-lg animate__animated animate__flash animate__delay-4s">
             Our mission is simple: to provide healthcare providers with the best talent while offering healthcare professionals a platform for growth and advancement. Let's shape the future of healthcare together.
         </p>
     </div>
 </div>
 
 <!-- Call to Action Section with Pulse and Hover Animations -->
-<div class="container mx-auto px-6 py-20">
-    <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 animate__animated animate__fadeIn animate__delay-1s">
+<div class="container mx-auto px-6 py-16">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-8 animate__animated animate__fadeIn animate__delay-1s">
         Ready to Take the Next Step in Your Healthcare Career?
     </h2>
     <div class="text-center animate__animated animate__fadeIn animate__delay-2s">
         <a href="{{ url_for('signup') }}" 
-           class="bg-teal-600 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-xl font-semibold transition-all transform hover:scale-110 hover:bg-teal-500 duration-300 shadow-xl hover:shadow-2xl animate__pulse animate__infinite">
+           class="bg-teal-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-110 hover:bg-teal-500 duration-300 shadow-xl hover:shadow-2xl animate__pulse animate__infinite">
             Join Miracle Healthcare Recruitment Today
         </a>
     </div>
 </div>
 
 <!-- Contact Us Section with Hover Animation and Sliding Effect -->
-<div class="bg-gray-50 py-24">
+<div class="bg-gray-50 py-20">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 text-teal-600 animate__animated animate__fadeIn animate__delay-1s">
+        <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-8 text-teal-600 animate__animated animate__fadeIn animate__delay-1s">
             Get in Touch
         </h2>
         <div class="flex flex-wrap justify-center">
-            <div class="w-full md:w-1/3 px-6 mb-12 hover:scale-105 transition-all duration-500">
-                <h3 class="text-xl font-semibold mb-4 text-center">Phone</h3>
+            <div class="w-full md:w-1/3 px-6 mb-8 hover:scale-105 transition-all duration-500">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center">Phone</h3>
                 <p class="text-gray-700 text-center">+1 (123) 456-7890</p>
             </div>
-            <div class="w-full md:w-1/3 px-6 mb-12 hover:scale-105 transition-all duration-500">
-                <h3 class="text-xl font-semibold mb-4 text-center">Email</h3>
+            <div class="w-full md:w-1/3 px-6 mb-8 hover:scale-105 transition-all duration-500">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center">Email</h3>
                 <p class="text-gray-700 text-center">info@miraclehealthcare.com</p>
             </div>
-            <div class="w-full md:w-1/3 px-6 mb-12 hover:scale-105 transition-all duration-500">
-                <h3 class="text-xl font-semibold mb-4 text-center">Address</h3>
+            <div class="w-full md:w-1/3 px-6 mb-8 hover:scale-105 transition-all duration-500">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center">Address</h3>
                 <p class="text-gray-700 text-center">123 Healthcare St, London, UK</p>
             </div>
         </div>
