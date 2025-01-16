@@ -57,6 +57,11 @@ a:focus {
     background: #7386D5;
     color: #78deae;
     transition: all 0.3s;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
 }
 
 #sidebar.active {
@@ -156,11 +161,12 @@ canvas#signatureCanvas {
     margin-bottom: 20px;
 }
 
+/* Mobile-specific styles */
 @media (max-width: 768px) {
     body {
         font-size: 0.9em; /* Reduce base font size on mobile */
     }
-    
+
     .navbar {
         font-size: 1em; /* Smaller navbar font */
     }
@@ -174,17 +180,19 @@ canvas#signatureCanvas {
     }
 
     #sidebar {
-        margin-left: -250px;
+        width: 200px; /* Reduced sidebar width */
+        margin-left: -200px; /* Hide sidebar off-screen */
+        transition: margin-left 0.3s ease-in-out;
     }
     
     #sidebar.active {
-        margin-left: 0;
+        margin-left: 0; /* Show sidebar when active */
     }
-    
+
     #sidebarCollapse span {
-        display: none;
+        display: none; /* Hide sidebar collapse button on mobile */
     }
-    
+
     #sidebar ul li a {
         font-size: 0.9em; /* Smaller sidebar item font */
     }
@@ -202,7 +210,20 @@ canvas#signatureCanvas {
     }
 }
 
-/* Icon styles */
+/* Optional: Button to toggle the sidebar visibility */
+#sidebarCollapse {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #7386D5;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* For icons in the sidebar */
 .btn-icon, .nav-icon {
     background-repeat: no-repeat;
     background-position: left center;
