@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HROMS{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Miracle Health Recruitment</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="{{ url_for('home') }}" class="nav-icon nav-home">Home</a>
+                </li>
+                {% if session.get('role') == 'admin' %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" class="nav-icon nav-home">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_applications') }}" class="nav-icon nav-applicants">Applications</a></li>
+                    <li><a href="{{ url_for('admin_interviews') }}" class="nav-icon nav-interview">Interviews</a></li>
+                    <li><a href="{{ url_for('admin_staff') }}" class="nav-icon nav-staff">Staff Management</a></li>
+                    <li><a href="{{ url_for('admin_leaves') }}" class="nav-icon nav-leave">Leave Requests</a></li>
+                    <li><a href="{{ url_for('admin_attendance') }}" class="nav-icon nav-attendance">Attendance</a></li>
+                    <li><a href="{{ url_for('admin_payslips') }}" class="nav-icon nav-payroll">Payroll</a></li>
+                    <li><a href="{{ url_for('admin_messages') }}" class="nav-icon nav-message">Messages</a></li>
+                    <li><a href="{{ url_for('admin_offer_letters') }}" class="nav-icon nav-offerletter">Offer Letters</a></li>
+                {% elif session.get('role') == 'staff' %}
+                    <li><a href="{{ url_for('staff_dashboard') }}" class="nav-icon nav-home">Dashboard</a></li>
+                    <li><a href="{{ url_for('staff_leave') }}" class="nav-icon nav-leave">Leave Management</a></li>
+                    <li><a href="{{ url_for('staff_attendance') }}" class="nav-icon nav-attendance">Attendance</a></li>
+                    <li><a href="{{ url_for('staff_shifts') }}" class="nav-icon nav-staff">Shifts</a></li>
+                    <li><a href="{{ url_for('staff_payslips') }}" class="nav-icon nav-payroll">Payslips</a></li>
+                    <li><a href="{{ url_for('staff_messages') }}" class="nav-icon nav-message">Messages</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('applicant_dashboard') }}" class="nav-icon nav-home">Dashboard</a></li>
+                    <li><a href="{{ url_for('applicant_profile') }}" class="nav-icon nav-profile">Profile</a></li>
+                    <li><a href="{{ url_for('application_form') }}" class="nav-icon nav-applicants">Application Form</a></li>
+                    <li><a href="{{ url_for('document_upload') }}" class="nav-icon nav-offerletter">Document Upload</a></li>
+                    <li><a href="{{ url_for('audit_declaration') }}" class="nav-icon nav-staff">Audit Declaration</a></li>
+                    <li><a href="{{ url_for('romn_compliance') }}" class="nav-icon nav-staff">ROMN Compliance</a></li>
+                    <li><a href="{{ url_for('policy_agreement') }}" class="nav-icon nav-staff">Policy Agreement</a></li>
+                    <li><a href="{{ url_for('applicant_interviews') }}" class="nav-icon nav-interview">Interviews</a></li>
+                    <li><a href="{{ url_for('applicant_messages') }}" class="nav-icon nav-message">Messages</a></li>
+                    <li><a href="{{ url_for('applicant_offer_letter') }}" class="nav-icon nav-offerletter">Offer Letter</a></li>
+                {% endif %}
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="#" class="nav-icon nav-message">Contact Us</a>
+                <a href="#" class="nav-icon nav-home">Office Location</a>
+                <a href="#" class="nav-icon nav-profile">+1 (123) 456-7890</a>
+            </div>
+        </nav>
+
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <div class="ml-auto">
+                        {% if session.get('user_id') %}
+                            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+                            <a href="{{ url_for('signup') }}" class="btn btn-success">Sign Up</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+
+            <main>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Miracle Health Recruitment. All rights reserved.</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+{% if audit_declaration %}
+    <p>You have already submitted the Audit Declaration on {{ audit_declaration.declaration_date.strftime('%Y-%m-%d %H:%M:%S') }}.</p>
+    <a href="{{ url_for('download_audit_declaration', declaration_id=audit_declaration.id) }}" class="bg-pink-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download Audit Declaration</a>
+{% else %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded shadow">
+  <h2 class="text-2xl font-bold mb-4">Audit and Compliance Declaration</h2>
+  <div class="mb-6 h-64 overflow-y-auto border p-4 rounded">
+    <h3 class="text-xl font-semibold mb-2">Mireacle Healthcare Recruitment</h3>
+    <p class="mb-4">By submitting your application through this platform, you (the Applicant) acknowledge and agree to the following terms as part of our commitment to audit compliance, data security, and regulatory standards:</p>
+    
+    <h4 class="text-lg font-semibold mt-4">Accuracy of Information</h4>
+    <ul class="list-disc pl-5 mb-4">
+      <li>You confirm that all information provided in your application, including personal details, qualifications, and work history, is true, accurate, and complete to the best of your knowledge.</li>
+      <li>Any false, misleading, or omitted information may result in disqualification from the recruitment process or termination of employment if discovered at a later stage.</li>
+    </ul>
+
+    <h4 class="text-lg font-semibold mt-4">Consent to Data Collection and Processing</h4>
+    <ul class="list-disc pl-5 mb-4">
+      <li>You consent to the collection, processing, and storage of your personal data in compliance with applicable data protection laws, including but not limited to the General Data Protection Regulation (GDPR) and other relevant privacy laws.</li>
+      <li>Your data will only be used for the purpose of assessing your suitability for employment and will not be shared with unauthorized third parties.</li>
+    </ul>
+
+    <h4 class="text-lg font-semibold mt-4">Audit and Record-Keeping</h4>
+    <ul class="list-disc pl-5 mb-4">
+      <li>You acknowledge that your application and related documentation may be subject to periodic audits to ensure compliance with legal, regulatory, and organizational standards.</li>
+      <li>These audits are conducted to uphold fairness, transparency, and integrity throughout the recruitment process.</li>
+    </ul>
+
+    <h4 class="text-lg font-semibold mt-4">Equal Opportunity Statement</h4>
+    <p class="mb-4">Mireacle Healthcare Recruitment is an equal opportunity employer. All applicants will be considered without regard to race, color, religion, gender, national origin, age, disability, or any other legally protected characteristic.</p>
+
+    <h4 class="text-lg font-semibold mt-4">Acknowledgment of Policies</h4>
+    <ul class="list-disc pl-5 mb-4">
+      <li>You confirm that you have reviewed and understood Mireacle Healthcare Recruitment's policies, including the Privacy Policy and Terms of Use of this platform.</li>
+      <li>These policies outline your rights and the company's responsibilities in relation to your application and data.</li>
+    </ul>
+
+    <h4 class="text-lg font-semibold mt-4">Acceptance of Terms</h4>
+    <ul class="list-disc pl-5 mb-4">
+      <li>By clicking "Accept" or submitting your application, you agree to the above terms and conditions.</li>
+      <li>If you do not agree to these terms, please refrain from submitting your application or contact us for further clarification.</li>
+    </ul>
+  </div>
+
+  <form method="POST" class="space-y-4" id="auditForm">
+    <div>
+      <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name:</label>
+      <input type="text" id="fullName" name="fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+    </div>
+    <div>
+      <label for="signatureCanvas" class="block text-sm font-medium text-gray-700 mb-2">Please sign below:</label>
+      <canvas id="signatureCanvas" width="500" height="200" class="border border-gray-300"></canvas>
+      <input type="hidden" id="signatureData" name="signature" required>
+    </div>
+    <button type="button" id="clearSignature" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Clear Signature</button>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Accept and Submit</button>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var canvas = document.getElementById('signatureCanvas');
+  var ctx = canvas.getContext('2d');
+  var drawing = false;
+  var lastX, lastY;
+
+  function startDrawing(e) {
+    drawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  }
+
+  function stopDrawing() {
+    drawing = false;
+  }
+
+  canvas.addEventListener('mousedown', startDrawing);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', stopDrawing);
+  canvas.addEventListener('mouseout', stopDrawing);
+
+  document.getElementById('clearSignature').addEventListener('click', function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+
+  document.getElementById('auditForm').addEventListener('submit', function(e) {
+    var signatureData = canvas.toDataURL();
+    document.getElementById('signatureData').value = signatureData;
+    
+    var fullName = document.getElementById('fullName').value;
+    if (!fullName.trim()) {
+      e.preventDefault();
+      alert('Please enter your full name.');
+    }
+  });
+});
+</script>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-skyblue-600 p-8 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Policy Agreement</h2>
+    {% if policy_agreement %}
+        <p>You have already submitted the Policy Agreement on {{ policy_agreement.agreement_date.strftime('%Y-%m-%d %H:%M:%S') }}.</p>
+        <a href="{{ url_for('download_policy_agreement', agreement_id=policy_agreement.id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download Policy Agreement</a>
+    {% else %}
+        {% if agreement %}
+            <p class="mb-4">You have already accepted the policy agreement on {{ agreement.submission_date }}.</p>
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold mb-2">Your Signature</h3>
+                <img src="{{ agreement.signature }}" alt="Your signature" class="border p-2" />
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-2">Policy Document</h3>
+                <div class="policy-document border p-4 mb-4">
+                    <p>This is the policy document that you have agreed to...</p>
+                </div>
+            </div>
+            <a href="{{ url_for('download_policy_agreement') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download Policy Agreement</a>
+        {% else %}
+            <p class="mb-4">Please read the following Policy Agreement carefully:</p>
+            <div class="policy-document border p-4 mb-4 h-96 overflow-y-auto">
+                <h2 class="text-xl font-bold mb-4">Miracle Health Recruitment Application Policy Document</h2>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">Introduction</h3>
+                <p>Welcome to Miracle Health Recruitment. Our mission is to connect talented healthcare professionals with top organizations, fostering growth and excellence in the healthcare industry. This document outlines the terms, conditions, and policies governing the use of our recruitment services. By applying through our platform, you acknowledge and agree to these terms.</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">1. Equal Opportunity Policy</h3>
+                <p>Miracle Health Recruitment is committed to providing equal employment opportunities to all applicants regardless of race, color, religion, gender, sexual orientation, age, disability, or national origin. We strive to create an inclusive environment for all candidates.</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">2. Applicant Responsibilities</h3>
+                <p>By submitting your application, you agree to:</p>
+                <ul class="list-disc pl-5">
+                    <li>Provide accurate, complete, and truthful information about your qualifications, experience, and personal details.</li>
+                    <li>Update your profile and resume with any changes to your contact information, certifications, or employment history.</li>
+                    <li>Respect the confidentiality of any proprietary information shared during the recruitment process.</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">3. Application and Screening Process</h3>
+                <ul class="list-disc pl-5">
+                    <li><strong>Submission:</strong> Applicants must complete all required fields in the application form and upload any requested documents.</li>
+                    <li><strong>Verification:</strong> Submitted documents and information will be reviewed for accuracy. Miracle Health Recruitment reserves the right to verify your credentials with relevant authorities or institutions.</li>
+                    <li><strong>Screening:</strong> Shortlisted candidates may undergo additional assessments, including interviews, background checks, and reference verification.</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">4. Data Privacy and Protection</h3>
+                <p>We prioritize the privacy and security of your personal information. All data provided will be processed in compliance with applicable data protection laws. For more details, please refer to our Privacy Policy.</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">5. Prohibited Conduct</h3>
+                <p>Applicants are strictly prohibited from:</p>
+                <ul class="list-disc pl-5">
+                    <li>Submitting false or misleading information.</li>
+                    <li>Engaging in any form of harassment or discriminatory behavior during the recruitment process.</li>
+                    <li>Attempting to gain unauthorized access to Miracle Health Recruitment's systems or databases.</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">6. Acceptance and Withdrawal of Offers</h3>
+                <ul class="list-disc pl-5">
+                    <li>Offers made through Miracle Health Recruitment are contingent on the verification of credentials and successful completion of the recruitment process.</li>
+                    <li>Applicants may withdraw their application at any time by notifying us via email or the application portal.</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">7. Dispute Resolution</h3>
+                <p>Any disputes arising from the application process will be resolved amicably. If necessary, disputes may be escalated to binding arbitration in accordance with local labor laws.</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">8. Amendments to Policy</h3>
+                <p>Miracle Health Recruitment reserves the right to amend this policy at any time. Updates will be communicated via the platform and applicants are encouraged to review the policy periodically.</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">9. Acceptance and Agreement</h3>
+                <p>By proceeding with your application, you confirm that you have read, understood, and agreed to abide by the terms and conditions outlined in this document.</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">Acknowledgment and Consent</h3>
+                <p>I acknowledge that I have read and understood the Miracle Health Recruitment Application Policy. I agree to comply with the terms and conditions herein.</p>
+
+                <p class="mt-4">For any questions or concerns regarding this policy, please contact us at support@miraclehealthrecruitment.com.</p>
+            </div>
+            <form id="policyForm" method="POST" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                </div>
+                <div>
+                    <label for="signatureCanvas" class="block text-sm font-medium text-gray-700 mb-2">Please sign below:</label>
+                    <canvas id="signatureCanvas" width="500" height="200" class="border border-gray-300"></canvas>
+                    <input type="hidden" id="signatureData" name="signature" required>
+                </div>
+                <button type="button" id="clearSignature" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Clear Signature</button>
+                <button type="submit" id="acceptPolicy" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Accept Policy Agreement</button>
+            </form>
+        {% endif %}
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var canvas = document.getElementById('signatureCanvas');
+    var ctx = canvas.getContext('2d');
+    var drawing = false;
+    var lastX, lastY;
+
+    function startDrawing(e) {
+        drawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    function stopDrawing() {
+        drawing = false;
+    }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    document.getElementById('clearSignature').addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    document.getElementById('policyForm').addEventListener('submit', function(e) {
+        var signatureData = canvas.toDataURL();
+        document.getElementById('signatureData').value = signatureData;
+        
+        var fullName = document.getElementById('fullName').value;
+        if (!fullName.trim()) {
+            e.preventDefault();
+            alert('Please enter your full name.');
+        }
+    });
+});
+</script>
+{% endblock %}
+

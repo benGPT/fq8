@@ -1,0 +1,30 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Admin Offer Letters</h2>
+<a href="{{ url_for('upload_offer_letter') }}">Upload New Offer Letter</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Applicant Name</th>
+            <th>Upload Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for letter in offer_letters %}
+        <tr>
+            <td>{{ letter.id }}</td>
+            <td>{{ letter.applicant.first_name }} {{ letter.applicant.last_name }}</td>
+            <td>{{ letter.upload_date }}</td>
+            <td>{{ letter.status }}</td>
+            <td>
+                <a href="{{ url_for('download_offer_letter', letter_id=letter.id) }}">Download</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

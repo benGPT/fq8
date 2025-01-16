@@ -1,0 +1,159 @@
+{% extends "sidebar_base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="dashboard-card">
+            <h3>Quick Stats</h3>
+            <ul>
+                <li>Total Applicants: <span id="total-applicants">{{ total_applicants }}</span></li>
+                <li>Open Applications: <span id="open-applications">{{ open_applications }}</span></li>
+                <li>Scheduled Interviews: <span id="scheduled-interviews">{{ scheduled_interviews }}</span></li>
+                <li>Total Staff: <span id="total-staff">{{ total_staff }}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="dashboard-card">
+            <h3>Application Status</h3>
+            <canvas id="applicationStatusChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h3>Staff Attendance (Last 7 Days)</h3>
+            <canvas id="staffAttendanceChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="dashboard-card">
+            <h3>Recent Activities</h3>
+            <ul id="recent-activities">
+                {% for activity in recent_activities %}
+                <li>{{ activity.description }} - {{ activity.timestamp }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="dashboard-card">
+            <h3>Upcoming Interviews</h3>
+            <ul id="upcoming-interviews">
+                {% for interview in upcoming_interviews %}
+                <li>{{ interview.user.first_name }} {{ interview.user.last_name }} - {{ interview.interview_date }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Application Status Chart
+    var applicationStatusCtx = document.getElementById('applicationStatusChart').getContext('2d');
+    var applicationStatusChart = new Chart(applicationStatusCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Pending', 'Reviewing', 'Accepted', 'Rejected'],
+            datasets: [{
+                data: [{{ application_status.pending }}, {{ application_status.reviewing }}, {{ application_status.accepted }}, {{ application_status.rejected }}],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Application Status Distribution'
+            }
+        }
+    });
+
+    // Staff Attendance Chart
+    var staffAttendanceCtx = document.getElementById('staffAttendanceChart').getContext('2d');
+    var staffAttendanceChart = new Chart(staffAttendanceCtx, {
+        type: 'line',
+        data: {
+            labels: {{ attendance_dates|tojson }},
+            datasets: [{
+                label: 'Present',
+                data: {{ attendance_present }},
+                borderColor: '#36A2EB',
+                fill: false
+            }, {
+                label: 'Absent',
+                data: {{ attendance_absent }},
+                borderColor: '#FF6384',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Staff Attendance (Last 7 Days)'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // Live updates
+    function updateDashboard() {
+        fetch('/admin/dashboard-data')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total-applicants').textContent = data.total_applicants;
+                document.getElementById('open-applications').textContent = data.open_applications;
+                document.getElementById('scheduled-interviews').textContent = data.scheduled_interviews;
+                document.getElementById('total-staff').textContent = data.total_staff;
+
+                // Update application status chart
+                applicationStatusChart.data.datasets[0].data = [
+                    data.application_status.pending,
+                    data.application_status.reviewing,
+                    data.application_status.accepted,
+                    data.application_status.rejected
+                ];
+                applicationStatusChart.update();
+
+                // Update staff attendance chart
+                staffAttendanceChart.data.labels = data.attendance_dates;
+                staffAttendanceChart.data.datasets[0].data = data.attendance_present;
+                staffAttendanceChart.data.datasets[1].data = data.attendance_absent;
+                staffAttendanceChart.update();
+
+                // Update recent activities
+                var recentActivitiesList = document.getElementById('recent-activities');
+                recentActivitiesList.innerHTML = '';
+                data.recent_activities.forEach(activity => {
+                    var li = document.createElement('li');
+                    li.textContent = `${activity.description} - ${activity.timestamp}`;
+                    recentActivitiesList.appendChild(li);
+                });
+
+                // Update upcoming interviews
+                var upcomingInterviewsList = document.getElementById('upcoming-interviews');
+                upcomingInterviewsList.innerHTML = '';
+                data.upcoming_interviews.forEach(interview => {
+                    var li = document.createElement('li');
+                    li.textContent = `${interview.user_name} - ${interview.interview_date}`;
+                    upcomingInterviewsList.appendChild(li);
+                });
+            });
+    }
+
+    // Update dashboard every 30 seconds
+    setInterval(updateDashboard, 30000);
+</script>
+{% endblock %}
+

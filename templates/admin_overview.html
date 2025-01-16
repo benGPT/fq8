@@ -1,0 +1,99 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Admin Overview</h2>
+<div class="statistics">
+    <h3>Statistics</h3>
+    <ul>
+        <li>Total Applicants: {{ total_applicants }}</li>
+        <li>Open Applications: {{ open_applications }}</li>
+        <li>Scheduled Interviews: {{ scheduled_interviews }}</li>
+        <li>Filled Positions: {{ filled_positions }}</li>
+        <li>Total Staff: {{ total_staff }}</li>
+        <li>Running Leaves: {{ running_leaves }}</li>
+        <li>Expired Leaves: {{ expired_leaves }}</li>
+        <li>Leaves this month: {{ leaves_month }}</li>
+        <li>Leaves this week: {{ leaves_week }}</li>
+        <li>Leaves today: {{ leaves_day }}</li>
+        <li>Leaves this year: {{ leaves_year }}</li>
+        <li>Total Leaves: {{ leaves_total }}</li>
+        <li>Current Working Staff: {{ current_working_staff }}</li>
+        <li>Running Shifts: {{ running_shifts }}</li>
+        <li>Completed Shifts (Today): {{ completed_shifts_day }}</li>
+        <li>Completed Shifts (This Week): {{ completed_shifts_week }}</li>
+        <li>Completed Shifts (This Month): {{ completed_shifts_month }}</li>
+        <li>Completed Shifts (This Year): {{ completed_shifts_year }}</li>
+        <li>Awaiting Shifts: {{ awaiting_shifts }}</li>
+    </ul>
+</div>
+
+<div class="charts">
+    <h3>Charts</h3>
+    <canvas id="loginChart"></canvas>
+    <canvas id="interviewChart"></canvas>
+    <canvas id="applicationStatusChart"></canvas>
+    <canvas id="shiftDistributionChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Login Statistics Chart
+    var loginCtx = document.getElementById('loginChart').getContext('2d');
+    var loginData = JSON.parse('{{ login_stats | safe }}');
+    new Chart(loginCtx, {
+        type: 'line',
+        data: {
+            labels: loginData.labels,
+            datasets: [{
+                label: 'Login Statistics',
+                data: loginData.data,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        }
+    });
+
+    // Interview Statistics Chart
+    var interviewCtx = document.getElementById('interviewChart').getContext('2d');
+    var interviewData = JSON.parse('{{ interview_stats | safe }}');
+    new Chart(interviewCtx, {
+        type: 'pie',
+        data: {
+            labels: interviewData.labels,
+            datasets: [{
+                data: interviewData.data,
+                backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)']
+            }]
+        }
+    });
+
+    // Application Status Distribution Chart
+    var applicationStatusCtx = document.getElementById('applicationStatusChart').getContext('2d');
+    var applicationStatusData = JSON.parse('{{ application_status | safe }}');
+    new Chart(applicationStatusCtx, {
+        type: 'bar',
+        data: {
+            labels: applicationStatusData.labels,
+            datasets: [{
+                label: 'Application Status Distribution',
+                data: applicationStatusData.data,
+                backgroundColor: 'rgb(75, 192, 192)'
+            }]
+        }
+    });
+
+    // Shift Distribution Chart
+    var shiftDistributionCtx = document.getElementById('shiftDistributionChart').getContext('2d');
+    var shiftDistributionData = JSON.parse('{{ shift_distribution | safe }}');
+    new Chart(shiftDistributionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: shiftDistributionData.labels,
+            datasets: [{
+                data: shiftDistributionData.data,
+                backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)']
+            }]
+        }
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,50 @@
+{% extends "sidebar_base.html" %}
+{% block content %}
+<div class="leave-management-container">
+    <h1 class="page-title">Leave Management</h1>
+    
+    <div class="leave-list">
+        <h2>Leave Requests</h2>
+        <table class="leave-table" id="leaveTable">
+            <thead>
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Leave Type</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                <tr data-status="{{ leave.status }}">
+                    <td>{{ leave.staff.user.first_name }} {{ leave.staff.user.last_name }}</td>
+                    <td>{{ leave.start_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ leave.end_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ leave.leave_type }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td>{{ leave.status }}</td>
+                    <td>
+                        {% if leave.status == 'pending' %}
+                        <form method="POST" action="{{ url_for('update_leave', leave_id=leave.id) }}">
+                            <select name="action" required>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                            <input type="text" name="admin_note" placeholder="Admin Note">
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                        {% else %}
+                        {{ leave.admin_note or 'No admin note' }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

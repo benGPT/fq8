@@ -1,0 +1,20 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Send Message</h2>
+<form method="POST">
+    <div>
+        <label for="recipient_id">Recipient:</label>
+        <select name="recipient_id" id="recipient_id" required>
+            {% for applicant in applicants %}
+            <option value="{{ applicant.id }}">{{ applicant.first_name }} {{ applicant.last_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="content">Message:</label>
+        <textarea name="content" id="content" required></textarea>
+    </div>
+    <button type="submit">Send Message</button>
+</form>
+{% endblock %}
+

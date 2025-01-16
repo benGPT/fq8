@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #7386D5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Application Form Summary</h1>
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Full Name</td>
+            <td>{{ application.title }} {{ application.first_name }} {{ application.surname }}</td>
+        </tr>
+        <tr>
+            <td>Date of Birth</td>
+            <td>{{ application.date_of_birth }}</td>
+        </tr>
+        <tr>
+            <td>National Insurance Number</td>
+            <td>{{ application.national_insurance_number }}</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>{{ application.home_address }}, {{ application.post_code }}</td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td>{{ application.mobile_number }} / {{ application.email_address }}</td>
+        </tr>
+        <tr>
+            <td>NMC Pin</td>
+            <td>{{ application.nmc_pin }}</td>
+        </tr>
+        <tr>
+            <td>Next of Kin</td>
+            <td>{{ application.next_of_kin_full_name }} ({{ application.next_of_kin_relationship }})</td>
+        </tr>
+        <tr>
+            <td>Next of Kin Contact</td>
+            <td>{{ application.next_of_kin_phone }} / {{ application.next_of_kin_email }}</td>
+        </tr>
+        <tr>
+            <td>Criminal Conviction</td>
+            <td>{% if application.criminal_conviction %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        {% if application.criminal_conviction %}
+        <tr>
+            <td>Criminal Conviction Details</td>
+            <td>{{ application.criminal_conviction_details }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td>Submission Date</td>
+            <td>{{ application.submission_date }}</td>
+        </tr>
+    </table>
+</body>
+</html>
+

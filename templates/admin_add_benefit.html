@@ -1,0 +1,26 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Add Benefit for {{ staff.user.first_name }} {{ staff.user.last_name }}</h2>
+
+<form method="POST">
+    <div>
+        <label for="name">Benefit Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="value">Value:</label>
+        <input type="number" id="value" name="value" step="0.01" required>
+    </div>
+    <div>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+    </div>
+    <div>
+        <label for="end_date">End Date (leave blank if ongoing):</label>
+        <input type="date" id="end_date" name="end_date">
+    </div>
+    <button type="submit">Add Benefit</button>
+</form>
+
+{% endblock %}
+

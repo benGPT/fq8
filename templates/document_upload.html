@@ -1,0 +1,37 @@
+{% extends "dashboard_base.html" %}
+
+{% block dashboard_title %}Document Upload{% endblock %}
+
+{% block dashboard_content %}
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Document Upload
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            Upload required documents for your application.
+        </p>
+    </div>
+    <div class="border-t border-gray-200">
+        <dl>
+            {% for document_type in ['passport_photo', 'brp_front', 'brp_back', 'proof_of_ni', 'proof_of_address_front', 'proof_of_address_back', 'driving_license_front', 'driving_license_back', 'immunization_evidence', 'nursing_degree', 'nmc_statement', 'rocn_letter', 'dbs_front', 'dbs_back', 'eep', 'resume'] %}
+                <div class="bg-{% if loop.index % 2 == 0 %}gray-50{% else %}white{% endif %} px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        {{ document_type|replace('_', ' ')|title }}
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <form method="POST" enctype="multipart/form-data" class="flex items-center">
+                            <input type="hidden" name="document_type" value="{{ document_type }}">
+                            <input type="file" name="document" id="{{ document_type }}" class="mr-2">
+                            <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Upload
+                            </button>
+                        </form>
+                    </dd>
+                </div>
+            {% endfor %}
+        </dl>
+    </div>
+</div>
+{% endblock %}
+

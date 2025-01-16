@@ -1,0 +1,33 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Admin Payslips</h2>
+<a href="{{ url_for('generate_payslip') }}">Generate New Payslip</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Staff Name</th>
+            <th>Period Start</th>
+            <th>Period End</th>
+            <th>Net Salary</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payslip in payslips %}
+        <tr>
+            <td>{{ payslip.id }}</td>
+            <td>{{ payslip.staff.user.first_name }} {{ payslip.staff.user.last_name }}</td>
+            <td>{{ payslip.period_start }}</td>
+            <td>{{ payslip.period_end }}</td>
+            <td>{{ payslip.net_salary }}</td>
+            <td>
+                <a href="{{ url_for('edit_payslip', payslip_id=payslip.id) }}">Edit</a>
+                <a href="{{ url_for('download_payslip', payslip_id=payslip.id) }}">Download</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

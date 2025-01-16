@@ -1,0 +1,31 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Admin Applications</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in applications %}
+        <tr>
+            <td>{{ application.id }}</td>
+            <td>{{ application.first_name }} {{ application.surname }}</td>
+            <td>{{ application.email_address }}</td>
+            <td>{{ application.submission_date }}</td>
+            <td>{{ application.status }}</td>
+            <td>
+                <a href="{{ url_for('view_application', application_id=application.id) }}">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

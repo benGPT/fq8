@@ -1,0 +1,30 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Admin Interviews</h2>
+<a href="{{ url_for('schedule_interview') }}">Schedule New Interview</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Applicant Name</th>
+            <th>Interview Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for interview in interviews %}
+        <tr>
+            <td>{{ interview.id }}</td>
+            <td>{{ interview.user.first_name }} {{ interview.user.last_name }}</td>
+            <td>{{ interview.interview_date }}</td>
+            <td>{{ interview.status }}</td>
+            <td>
+                <a href="{{ url_for('view_interview', interview_id=interview.id) }}">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

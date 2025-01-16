@@ -1,0 +1,114 @@
+{% extends "sidebar_base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Welcome, {{ staff.user.first_name }} {{ staff.user.last_name }}</h1>
+    
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <h2><i class="fas fa-user"></i> Your Profile</h2>
+            <p><strong>Position:</strong> {{ staff.position }}</p>
+            <p><strong>Department:</strong> {{ staff.department }}</p>
+            <p><strong>Hire Date:</strong> {{ staff.hire_date.strftime('%Y-%m-%d') }}</p>
+            <a href="{{ url_for('staff_profile') }}" class="btn btn-primary">View Full Profile</a>
+        </div>
+
+        <div class="dashboard-card">
+            <h2><i class="fas fa-calendar-alt"></i> Upcoming Shifts</h2>
+            <ul class="shift-list">
+                {% for shift in upcoming_shifts %}
+                <li>
+                    <strong>{{ shift.start_time.strftime('%Y-%m-%d %H:%M') }} - {{ shift.end_time.strftime('%H:%M') }}</strong>
+                    <br>{{ shift.location }} ({{ shift.role }})
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('staff_shifts') }}" class="btn btn-primary">View All Shifts</a>
+        </div>
+
+        <div class="dashboard-card">
+            <h2><i class="fas fa-clock"></i> Recent Attendance</h2>
+            <ul class="attendance-list">
+                {% for attendance in recent_attendance %}
+                <li>
+                    <strong>{{ attendance.date.strftime('%Y-%m-%d') }}</strong>
+                    <br>Check-in: {{ attendance.check_in.strftime('%H:%M') }}
+                    {% if attendance.check_out %}
+                    <br>Check-out: {{ attendance.check_out.strftime('%H:%M') }}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('staff_attendance') }}" class="btn btn-primary">View Full Attendance</a>
+        </div>
+
+        <div class="dashboard-card">
+            <h2><i class="fas fa-money-check-alt"></i> Latest Payslip</h2>
+            {% if latest_payslip %}
+            <p><strong>Period:</strong> {{ latest_payslip.period_start.strftime('%Y-%m-%d') }} to {{ latest_payslip.period_end.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Net Salary:</strong> ${{ "%.2f"|format(latest_payslip.net_salary) }}</p>
+            <a href="{{ url_for('view_payslip', payslip_id=latest_payslip.id) }}" class="btn btn-primary">View Details</a>
+            {% else %}
+            <p>No payslip available yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="dashboard-card">
+            <h2><i class="fas fa-envelope"></i> Recent Messages</h2>
+            <ul class="message-list">
+                {% for message in recent_messages %}
+                <li>
+                    <strong>{{ message.sender.first_name }} {{ message.sender.last_name }}</strong>
+                    <br>{{ message.content[:50] }}...
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('staff_messages') }}" class="btn btn-primary">View All Messages</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-container {
+        padding: 20px;
+    }
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .dashboard-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+    .dashboard-card h2 {
+        color: #333;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    .shift-list, .attendance-list, .message-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .shift-list li, .attendance-list li, .message-list li {
+        margin-bottom: 10px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+

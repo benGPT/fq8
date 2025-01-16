@@ -1,0 +1,28 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Admin Messages</h2>
+<a href="{{ url_for('send_message') }}">Send New Message</a>
+<table>
+    <thead>
+        <tr>
+            <th>From</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in messages %}
+        <tr>
+            <td>{{ message.sender.first_name }} {{ message.sender.last_name }}</td>
+            <td>{{ message.content[:50] }}...</td>
+            <td>{{ message.timestamp }}</td>
+            <td>
+                <a href="{{ url_for('view_message', message_id=message.id) }}">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

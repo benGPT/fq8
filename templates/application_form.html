@@ -1,0 +1,230 @@
+{% extends "home.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded shadow-lg">
+    <h2 class="text-3xl font-bold text-pink-600 mb-6">Application Form</h2>
+    <p class="text-1xl font-italic text-black-300 mb-1">Once application form is submitted, You cannot edit it.</p>
+    {% if application and application.submission_date %}
+        <p>Your application has been submitted on {{ application.submission_date.strftime('%Y-%m-%d %H:%M:%S') }}. You cannot edit it anymore.</p>
+        <a href="{{ url_for('download_application_form', application_id=application.id) }}" class="btn btn-primary">Download Application Form</a>
+    {% else %}
+    {% if profile %}
+        <div class="bg-gray-100 p-6 rounded-lg shadow">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Your Profile Information</h3>
+            
+            <p><strong>First Name:</strong> {{ profile.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+            <a href="{{ url_for('edit_request') }}" class="inline-block mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Request Profile Edit
+            </a>
+        </div>
+    {% else %}
+        <form id="applicationForm" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <!-- Personal Information -->
+            <h3 class="text-xl font-semibold text-blue-800">A. Personal Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-green-700">Title:</label>
+                    <input type="text" id="title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="first_name" class="block text-sm font-medium text-green-700">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="surname" class="block text-sm font-medium text-green-700">Surname:</label>
+                    <input type="text" id="surname" name="surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="date_of_birth" class="block text-sm font-medium text-green-700">Date of Birth:</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="national_insurance_number" class="block text-sm font-medium text-green-700">National Insurance Number:</label>
+                    <input type="text" id="national_insurance_number" name="national_insurance_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="postcode" class="block text-sm font-medium text-green-700">Post Code:</label>
+                    <input type="text" id="postcode" name="postcode" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="address" class="block text-sm font-medium text-green-700">Home Address:</label>
+                    <textarea id="address" name="address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                </div>
+                <div>
+                    <label for="mobile" class="block text-sm font-medium text-green-700">Mobile Number:</label>
+                    <input type="text" id="mobile" name="mobile" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-green-700">Email Address:</label>
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="nmc_pin" class="block text-sm font-medium text-green-700">NMC Pin:</label>
+                    <input type="text" id="nmc_pin" name="nmc_pin" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Next of Kin Details -->
+            <h3 class="text-xl font-semibold text-blue-800 mt-6">B. Next of Kin Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="nok_name" class="block text-sm font-medium text-gray-700">Full Name:</label>
+                    <input type="text" id="nok_name" name="nok_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="relationship" class="block text-sm font-medium text-gray-700">Relationship Type:</label>
+                    <input type="text" id="relationship" name="relationship" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="nok_phone" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+                    <input type="text" id="nok_phone" name="nok_phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="nok_landline" class="block text-sm font-medium text-gray-700">Landline:</label>
+                    <input type="text" id="nok_landline" name="nok_landline" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="nok_email" class="block text-sm font-medium text-gray-700">Email:</label>
+                    <input type="email" id="nok_email" name="nok_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Criminal Conviction -->
+            <h3 class="text-xl font-semibold text-blue-800 mt-6">C. Criminal Conviction</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Have you ever been convicted of a criminal offense?</label>
+                    <div class="mt-2 space-x-4">
+                        <label><input type="radio" name="criminal_conviction" value="yes" required> Yes</label>
+                        <label><input type="radio" name="criminal_conviction" value="no" required> No</label>
+                    </div>
+                </div>
+                <div>
+                    <label for="conviction_details" class="block text-sm font-medium text-gray-700">If yes, provide details and dates:</label>
+                    <textarea id="conviction_details" name="conviction_details" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                </div>
+            </div>
+
+            <!-- References -->
+            <h3 class="text-xl font-semibold text-blue-800 mt-6">D. References</h3>
+            <div class="space-y-6">
+                {% for i in range(2) %}
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <h4 class="text-lg font-semibold text-red-700">Reference {{ i + 1 }}</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="company_name_{{ i }}" class="block text-sm font-medium text-gray-700">Company Name:</label>
+                            <input type="text" id="company_name_{{ i }}" name="company_name_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="contact_name_{{ i }}" class="block text-sm font-medium text-gray-700">Contact Name:</label>
+                            <input type="text" id="contact_name_{{ i }}" name="contact_name_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="position_{{ i }}" class="block text-sm font-medium text-gray-700">Position:</label>
+                            <input type="text" id="position_{{ i }}" name="position_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="address_{{ i }}" class="block text-sm font-medium text-gray-700">Address:</label>
+                            <textarea id="address_{{ i }}" name="address_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div>
+                            <label for="postcode_{{ i }}" class="block text-sm font-medium text-gray-700">Post Code:</label>
+                            <input type="text" id="postcode_{{ i }}" name="postcode_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="email_{{ i }}" class="block text-sm font-medium text-gray-700">Email:</label>
+                            <input type="email" id="email_{{ i }}" name="email_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="phone_{{ i }}" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+                            <input type="text" id="phone_{{ i }}" name="phone_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="employment_dates_{{ i }}" class="block text-sm font-medium text-gray-700">Employment Start/End Date:</label>
+                            <input type="text" id="employment_dates_{{ i }}" name="employment_dates_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="approachable_{{ i }}" class="block text-sm font-medium text-gray-700">Approachable:</label>
+                            <select id="approachable_{{ i }}" name="approachable_{{ i }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Signature Section -->
+            <div>
+                <h3 class="text-xl font-semibold text-blue-800 mt-6">Signature</h3>
+                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name:</label>
+                <input type="text" id="fullName" name="full_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                
+                <label for="signatureCanvas" class="block text-sm font-medium text-gray-700 mt-4">Draw your signature below:</label>
+                <canvas id="signatureCanvas" width="500" height="200" class="border border-gray-300 rounded"></canvas>
+                <div class="mt-4 flex gap-4">
+                    <button type="button" id="clearSignature" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                        Clear Signature
+                    </button>
+                </div>
+                <input type="hidden" id="signatureData" name="signature" required>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-6">
+                Submit Application 
+            </button>
+        </form>
+    {% endif %}
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var canvas = document.getElementById('signatureCanvas');
+    var ctx = canvas.getContext('2d');
+    var drawing = false;
+    var lastX, lastY;
+
+    function startDrawing(e) {
+        drawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    function stopDrawing() {
+        drawing = false;
+    }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    document.getElementById('clearSignature').addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        var signatureData = canvas.toDataURL();
+        document.getElementById('signatureData').value = signatureData;
+        
+        var fullName = document.getElementById('fullName').value;
+        if (!fullName.trim()) {
+            e.preventDefault();
+            alert('Please enter your full name.');
+        }
+    });
+});
+</script>
+{% endblock %}
+

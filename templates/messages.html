@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Messages</h2>
+
+<div class="message-container">
+    <div class="message-list">
+        <h3>Inbox</h3>
+        <ul>
+            {% for message in messages %}
+            <li class="message-item {% if not message.is_read %}unread{% endif %}">
+                <a href="{{ url_for('view_message', message_id=message.id) }}">
+                    <span class="sender">{{ message.sender.first_name }} {{ message.sender.last_name }}</span>
+                    <span class="subject">{{ message.subject }}</span>
+                    <span class="date">{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="message-view">
+        {% if selected_message %}
+        <h3>{{ selected_message.subject }}</h3>
+        <p><strong>From:</strong> {{ selected_message.sender.first_name }} {{ selected_message.sender.last_name }}</p>
+        <p><strong>Date:</strong> {{ selected_message.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+        <div class="message-content">
+            {{ selected_message.content }}
+        </div>
+        {% if selected_message.attachment %}
+        <div class="attachment">
+            <strong>Attachment:</strong>
+            <a href="{{ url_for('download_attachment', message_id=selected_message.id) }}">{{ selected_message.attachment }}</a>
+        </div>
+        {% endif %}
+        <form method="POST" action="{{ url_for('reply_message', message_id=selected_message.id) }}">
+            <textarea name="reply_content" rows="5" required></textarea>
+            <button type="submit">Reply</button>
+        </form>
+        {% else %}
+        <p>Select a message to view its content.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

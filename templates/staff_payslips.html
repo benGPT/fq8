@@ -1,0 +1,189 @@
+{% extends "sidebar_base.html" %}
+{% block content %}
+<div class="payslip-container">
+    <h1 class="page-title">Salary and Payslips</h1>
+
+    <div class="salary-summary">
+        <h2>Salary Summary</h2>
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Total Earnings (YTD)</h3>
+                <p class="amount">${{ "%.2f"|format(total_earnings) }}</p>
+            </div>
+            <div class="summary-card">
+                <h3>Total Deductions (YTD)</h3>
+                <p class="amount">${{ "%.2f"|format(total_deductions) }}</p>
+            </div>
+            <div class="summary-card">
+                <h3>Net Pay (YTD)</h3>
+                <p class="amount">${{ "%.2f"|format(total_earnings - total_deductions) }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="payslip-list">
+        <h2>Payslips</h2>
+        <div class="payslip-filters">
+            <form id="payslip-filter-form">
+                <div class="form-group">
+                    <label for="date-range">Date Range:</label>
+                    <select id="date-range">
+                        <option value="all">All Time</option>
+                        <option value="this-month">This Month</option>
+                        <option value="last-month">Last Month</option>
+                        <option value="this-year">This Year</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                <div id="custom-date-range" style="display: none;">
+                    <div class="form-group">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </form>
+        </div>
+        <table class="payslip-table">
+            <thead>
+                <tr>
+                    <th>Pay Period</th>
+                    <th>Gross Pay</th>
+                    <th>Deductions</th>
+                    <th>Net Pay</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payslip in payslips %}
+                <tr>
+                    <td>{{ payslip.period_start.strftime('%Y-%m-%d') }} to {{ payslip.period_end.strftime('%Y-%m-%d') }}</td>
+                    <td>${{ "%.2f"|format(payslip.gross_pay) }}</td>
+                    <td>${{ "%.2f"|format(payslip.deductions) }}</td>
+                    <td>${{ "%.2f"|format(payslip.net_pay) }}</td>
+                    <td>
+                        <a href="{{ url_for('view_payslip', payslip_id=payslip.id) }}" class="btn btn-sm btn-info">View</a>
+                        <a href="{{ url_for('download_payslip', payslip_id=payslip.id) }}" class="btn btn-sm btn-success">Download</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payslip-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page-title {
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .salary-summary {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 30px;
+    }
+    .summary-cards {
+        display: flex;
+        justify-content: space-between;
+    }
+    .summary-card {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        flex: 1;
+        margin: 0 10px;
+    }
+    .summary-card h3 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+    .amount {
+        font-size: 24px;
+        font-weight: bold;
+        color: #007bff;
+    }
+    .payslip-filters {
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group select,
+    .form-group input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .payslip-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .payslip-table th,
+    .payslip-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .payslip-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    .payslip-table tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .btn-sm {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+    .btn-info {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var dateRange = document.getElementById('date-range');
+        var customDateRange = document.getElementById('custom-date-range');
+
+        dateRange.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customDateRange.style.display = 'block';
+            } else {
+                customDateRange.style.display = 'none';
+            }
+        });
+
+        document.getElementById('payslip-filter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Implement filter logic here
+            // You can use AJAX to fetch filtered results from the server
+        });
+    });
+</script>
+{% endblock %}
+

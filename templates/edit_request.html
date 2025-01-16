@@ -1,0 +1,16 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Request Profile Edit</h2>
+<form method="POST">
+    <div>
+        <label for="request_details">Edit Request Details:</label>
+        <textarea id="request_details" name="request_details" required></textarea>
+    </div>
+    <div>
+        <label for="request_reason">Reason for Edit:</label>
+        <textarea id="request_reason" name="request_reason" required></textarea>
+    </div>
+    <button type="submit">Submit Edit Request</button>
+</form>
+{% endblock %}
+

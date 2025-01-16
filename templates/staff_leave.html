@@ -1,0 +1,159 @@
+{% extends "sidebar_base.html" %}
+{% block content %}
+<div class="leave-management-container">
+    <h1 class="page-title">Leave Management</h1>
+    
+    <div class="leave-calendar-container">
+        <div id="leave-calendar"></div>
+    </div>
+
+    <div class="leave-request-form">
+        <h2>Request Leave</h2>
+        <form method="POST" action="{{ url_for('staff_leave') }}">
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" required>
+            </div>
+            <div class="form-group">
+                <label for="leave_type">Leave Type:</label>
+                <select id="leave_type" name="leave_type" required>
+                    <option value="annual">Annual Leave</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="personal">Personal Leave</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason:</label>
+                <textarea id="reason" name="reason" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Leave Request</button>
+        </form>
+    </div>
+
+    <div class="leave-history">
+        <h2>Leave History</h2>
+        <table class="leave-table">
+            <thead>
+                <tr>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Leave Type</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Admin Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                <tr>
+                    <td>{{ leave.start_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ leave.end_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ leave.leave_type }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td>{{ leave.status }}</td>
+                    <td>{{ leave.admin_feedback or 'No feedback yet' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css">
+<style>
+    .leave-management-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page-title {
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .leave-calendar-container {
+        margin-bottom: 30px;
+    }
+    .leave-request-form {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 30px;
+    }
+    .leave-request-form h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input[type="date"],
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .leave-history h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .leave-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .leave-table th,
+    .leave-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .leave-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    .leave-table tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('leave-calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: [
+                {% for leave in leaves %}
+                {
+                    title: '{{ leave.leave_type }} Leave',
+                    start: '{{ leave.start_date }}',
+                    end: '{{ leave.end_date }}',
+                    color: '{{ "green" if leave.status == "approved" else "orange" if leave.status == "pending" else "red" }}'
+                },
+                {% endfor %}
+            ]
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>View Application</h2>
+<h3>Personal Information</h3>
+<p>Name: {{ application.title }} {{ application.first_name }} {{ application.surname }}</p>
+<p>Date of Birth: {{ application.date_of_birth }}</p>
+<p>National Insurance Number: {{ application.national_insurance_number }}</p>
+<p>Address: {{ application.home_address }}, {{ application.post_code }}</p>
+<p>Mobile: {{ application.mobile_number }}</p>
+<p>Email: {{ application.email_address }}</p>
+<p>NMC Pin: {{ application.nmc_pin }}</p>
+
+<h3>Next of Kin</h3>
+<p>Name: {{ application.next_of_kin_full_name }}</p>
+<p>Relationship: {{ application.next_of_kin_relationship }}</p>
+<p>Phone: {{ application.next_of_kin_phone }}</p>
+<p>Landline: {{ application.next_of_kin_landline }}</p>
+<p>Email: {{ application.next_of_kin_email }}</p>
+
+<h3>Criminal Conviction</h3>
+<p>Has Criminal Conviction: {{ 'Yes' if application.criminal_conviction else 'No' }}</p>
+{% if application.criminal_conviction %}
+<p>Details: {{ application.criminal_conviction_details }}</p>
+{% endif %}
+
+<h3>References</h3>
+{% for reference in application.references %}
+<h4>Reference {{ loop.index }}</h4>
+<p>Company: {{ reference.company_name }}</p>
+<p>Contact: {{ reference.contact_name }}</p>
+<p>Position: {{ reference.position }}</p>
+<p>Address: {{ reference.address }}, {{ reference.post_code }}</p>
+<p>Email: {{ reference.email }}</p>
+<p>Phone: {{ reference.phone_number }}</p>
+<p>Employment Period: {{ reference.employment_start_date }} to {{ reference.employment_end_date }}</p>
+<p>Approachable: {{ 'Yes' if reference.approachable else 'No' }}</p>
+{% endfor %}
+
+<h3>Compliance</h3>
+<p>Signature: {{ application.signature }}</p>
+<p>Consent Given: {{ 'Yes' if application.consent else 'No' }}</p>
+<p>Evidence Stored: {{ 'Yes' if application.evidence_stored else 'No' }}</p>
+
+<h3>Uploaded Documents</h3>
+<ul>
+{% for document in documents %}
+    <li>
+        {{ document.document_type }} - 
+        <a href="{{ url_for('download_document', document_id=document.id) }}">Download</a>
+    </li>
+{% endfor %}
+</ul>
+
+<a href="{{ url_for('admin_applications') }}">Back to Applications</a>
+{% endblock %}
+

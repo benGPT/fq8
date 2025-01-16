@@ -1,0 +1,29 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Your Interviews</h2>
+{% if interviews %}
+    <ul>
+    {% for interview in interviews %}
+        <li>
+            <h3>Interview on {{ interview.interview_date }}</h3>
+            <p>Details: {{ interview.details }}</p>
+            <p>Status: {{ interview.status }}</p>
+            {% if interview.status == 'scheduled' %}
+                <form method="POST" action="{{ url_for('update_interview', interview_id=interview.id) }}">
+                    <select name="action" required>
+                        <option value="accept">Accept</option>
+                        <option value="reschedule">Request Reschedule</option>
+                        <option value="reject">Reject</option>
+                    </select>
+                    <textarea name="feedback" placeholder="Provide feedback or reasons"></textarea>
+                    <button type="submit">Submit Response</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no scheduled interviews at this time.</p>
+{% endif %}
+{% endblock %}
+

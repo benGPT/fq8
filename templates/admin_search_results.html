@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if results %}
+    <table class="search-results">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Details</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.type }}</td>
+                    <td>
+                        {% if result.type == 'Applicant' %}
+                            {{ result.data.email }} - {{ result.data.phone_number }}
+                        {% elif result.type == 'Staff' %}
+                            {{ result.data.user.email }} - {{ result.data.position }} ({{ result.data.department }})
+                        {% elif result.type == 'Shift' %}
+                            {{ result.data.start_time.strftime('%Y-%m-%d %H:%M') }} - {{ result.data.location }} ({{ result.data.role }})
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if result.type == 'Applicant' %}
+                            <a href="{{ url_for('view_application', application_id=result.data.id) }}">View Application</a>
+                        {% elif result.type == 'Staff' %}
+                            <a href="{{ url_for('admin_view_staff', staff_id=result.data.id) }}">View Staff</a>
+                        {% elif result.type == 'Shift' %}
+                            <a href="{{ url_for('admin_view_shift', shift_id=result.data.id) }}">View Shift</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No results found for "{{ query }}".</p>
+{% endif %}
+
+<a href="{{ url_for('admin_dashboard') }}" class="button">Back to Dashboard</a>
+{% endblock %}
+

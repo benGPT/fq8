@@ -1,0 +1,44 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Attendance Management</h2>
+
+<h3>Mark Attendance</h3>
+<form method="POST" enctype="multipart/form-data">
+    <button type="submit" name="action" value="check_in">Check In</button>
+    <button type="submit" name="action" value="check_out">Check Out</button>
+    <div>
+        <label for="document">Upload Document (if required):</label>
+        <input type="file" id="document" name="document">
+    </div>
+</form>
+
+<h3>Attendance History</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Document</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attendance in attendances %}
+        <tr>
+            <td>{{ attendance.date }}</td>
+            <td>{{ attendance.check_in.strftime('%H:%M') }}</td>
+            <td>{{ attendance.check_out.strftime('%H:%M') if attendance.check_out else 'Not checked out' }}</td>
+            <td>
+                {% if attendance.document %}
+                <a href="{{ url_for('download_document', document_id=attendance.id) }}">View Document</a>
+                {% else %}
+                No document
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+

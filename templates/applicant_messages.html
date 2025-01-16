@@ -1,0 +1,21 @@
+{% extends "dashboard_base.html" %}
+
+{% block dashboard_title %}Messages{% endblock %}
+
+{% block dashboard_content %}
+<h2>Your Messages</h2>
+{% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li>
+            <strong>From: {{ message.sender.email }}</strong>
+            <p>{{ message.content }}</p>
+            <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no messages.</p>
+{% endif %}
+{% endblock %}
+

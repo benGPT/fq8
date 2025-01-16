@@ -1,0 +1,30 @@
+{% extends "home.html" %}
+{% block content %}
+<h2>Assign Shift to {{ staff.user.first_name }} {{ staff.user.last_name }}</h2>
+
+<form method="POST">
+    <div>
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" id="start_time" name="start_time" required>
+    </div>
+    <div>
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" id="end_time" name="end_time" required>
+    </div>
+    <div>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+    </div>
+    <div>
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role" required>
+    </div>
+    <div>
+        <label for="details">Details:</label>
+        <textarea id="details" name="details"></textarea>
+    </div>
+    <button type="submit">Assign Shift</button>
+</form>
+
+{% endblock %}
+

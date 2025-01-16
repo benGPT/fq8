@@ -1,0 +1,96 @@
+{% extends "sidebar_base.html" %}
+
+{% block content %}
+<div class="applicants-container">
+    <h1>Applicant Management</h1>
+    
+    <form id="addStaffForm" method="POST" action="{{ url_for('admin_add_staff') }}">
+        <table class="applicant-table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Application Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for applicant in applicants %}
+                <tr>
+                    <td><input type="checkbox" name="selected_applicants" value="{{ applicant.id }}"></td>
+                    <td>{{ applicant.first_name }} {{ applicant.last_name }}</td>
+                    <td>{{ applicant.email }}</td>
+                    <td>{{ applicant.application_form.submission_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ applicant.application_form.status }}</td>
+                    <td>
+                        <a href="{{ url_for('admin_view_application', application_id=applicant.application_form.id) }}" class="btn btn-sm btn-info">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="form-group">
+            <label for="position">Position:</label>
+            <input type="text" id="position" name="position" required>
+        </div>
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" required>
+        </div>
+        <div class="form-group">
+            <label for="hire_date">Hire Date:</label>
+            <input type="date" id="hire_date" name="hire_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Selected as Staff</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .applicants-container {
+        padding: 20px;
+    }
+    .applicant-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    .applicant-table th, .applicant-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    .applicant-table th {
+        background-color: #f2f2f2;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+

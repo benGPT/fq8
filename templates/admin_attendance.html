@@ -1,0 +1,144 @@
+{% extends "sidebar_base.html" %}
+
+{% block content %}
+<div class="attendance-container">
+    <h1>Attendance Management</h1>
+    
+    <div class="attendance-filters">
+        <label for="staff-filter">Filter by Staff:</label>
+        <select id="staff-filter">
+            <option value="all">All Staff</option>
+            {% for staff in all_staff %}
+            <option value="{{ staff.id }}">{{ staff.user.first_name }} {{ staff.user.last_name }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="date-filter">Filter by Date:</label>
+        <input type="date" id="date-filter">
+        
+        <label for="period-filter">Filter by Period:</label>
+        <select id="period-filter">
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+        </select>
+        
+        <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
+    </div>
+
+    <table class="attendance-table" id="attendanceTable">
+        <thead>
+            <tr>
+                <th>Staff Name</th>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Total Hours</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendance in attendances %}
+            <tr>
+                <td>{{ attendance.staff.user.first_name }} {{ attendance.staff.user.last_name }}</td>
+                <td>{{ attendance.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ attendance.check_in.strftime('%H:%M:%S') }}</td>
+                <td>{{ attendance.check_out.strftime('%H:%M:%S') if attendance.check_out else 'Not checked out' }}</td>
+                <td>
+                    {% if attendance.check_out %}
+                    {{ ((attendance.check_out - attendance.check_in).total_seconds() / 3600)|round(2) }}
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('edit_attendance', attendance_id=attendance.id) }}" class="btn btn-sm btn-info">Edit</a>
+                    <form method="POST" action="{{ url_for('delete_attendance', attendance_id=attendance.id) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this attendance record?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function applyFilters() {
+        const staffFilter = document.getElementById('staff-filter').value;
+        const dateFilter = document.getElementById('date-filter').value;
+        const periodFilter = document.getElementById('period-filter').value;
+
+        fetch(`/admin/attendance-data?staff=${staffFilter}&date=${dateFilter}&period=${periodFilter}`)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('#attendanceTable tbody');
+                tbody.innerHTML = '';
+                data.forEach(attendance => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${attendance.staff_name}</td>
+                        <td>${attendance.date}</td>
+                        <td>${attendance.check_in}</td>
+                        <td>${attendance.check_out || 'Not checked out'}</td>
+                        <td>${attendance.total_hours || 'N/A'}</td>
+                        <td>
+                            <a href="/admin/edit-attendance/${attendance.id}" class="btn btn-sm btn-info">Edit</a>
+                            <form method="POST" action="/admin/delete-attendance/${attendance.id}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this attendance record?');">Delete</button>
+                            </form>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+    }
+
+    document.getElementById('apply-filters').addEventListener('click', applyFilters);
+
+    // Auto-update every 5 minutes
+    setInterval(applyFilters, 300000);
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .attendance-container {
+        padding: 20px;
+    }
+    .attendance-filters {
+        margin-bottom: 20px;
+    }
+    .attendance-filters label {
+        margin-right: 10px;
+    }
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .attendance-table th, .attendance-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    .attendance-table th {
+        background-color: #f2f2f2;
+    }
+    .btn-sm {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+    .btn-info {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+

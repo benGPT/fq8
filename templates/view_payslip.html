@@ -1,0 +1,154 @@
+{% extends "sidebar_base.html" %}
+{% block content %}
+<div class="payslip-container">
+    <h1 class="page-title">Payslip Details</h1>
+
+    <div class="payslip-details">
+        <h2>Pay Period: {{ payslip.period_start.strftime('%Y-%m-%d') }} to {{ payslip.period_end.strftime('%Y-%m-%d') }}</h2>
+        
+        <div class="payslip-section">
+            <h3>Employee Information</h3>
+            <table class="info-table">
+                <tr>
+                    <th>Name:</th>
+                    <td>{{ payslip.staff.user.first_name }} {{ payslip.staff.user.last_name }}</td>
+                </tr>
+                <tr>
+                    <th>Employee ID:</th>
+                    <td>{{ payslip.staff.id }}</td>
+                </tr>
+                <tr>
+                    <th>Department:</th>
+                    <td>{{ payslip.staff.department }}</td>
+                </tr>
+                <tr>
+                    <th>Position:</th>
+                    <td>{{ payslip.staff.position }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="payslip-section">
+            <h3>Earnings</h3>
+            <table class="info-table">
+                <tr>
+                    <th>Basic Salary:</th>
+                    <td>${{ "%.2f"|format(payslip.basic_salary) }}</td>
+                </tr>
+                <tr>
+                    <th>Overtime Pay:</th>
+                    <td>${{ "%.2f"|format(payslip.overtime_pay) }}</td>
+                </tr>
+                <tr>
+                    <th>Bonuses:</th>
+                    <td>${{ "%.2f"|format(payslip.bonuses) }}</td>
+                </tr>
+                <tr>
+                    <th>Total Gross Pay:</th>
+                    <td>${{ "%.2f"|format(payslip.gross_pay) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="payslip-section">
+            <h3>Deductions</h3>
+            <table class="info-table">
+                <tr>
+                    <th>Tax:</th>
+                    <td>${{ "%.2f"|format(payslip.tax) }}</td>
+                </tr>
+                <tr>
+                    <th>Insurance:</th>
+                    <td>${{ "%.2f"|format(payslip.insurance) }}</td>
+                </tr>
+                <tr>
+                    <th>Other Deductions:</th>
+                    <td>${{ "%.2f"|format(payslip.other_deductions) }}</td>
+                </tr>
+                <tr>
+                    <th>Total Deductions:</th>
+                    <td>${{ "%.2f"|format(payslip.deductions) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="payslip-section">
+            <h3>Net Pay</h3>
+            <table class="info-table">
+                <tr>
+                    <th>Net Pay:</th>
+                    <td>${{ "%.2f"|format(payslip.net_pay) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="payslip-actions">
+            <a href="{{ url_for('download_payslip', payslip_id=payslip.id) }}" class="btn btn-primary">Download Payslip</a>
+            <a href="{{ url_for('staff_payslips') }}" class="btn btn-secondary">Back to Payslips</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payslip-container {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .page-title {
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .payslip-details {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+    }
+    .payslip-section {
+        margin-bottom: 30px;
+    }
+    .payslip-section h3 {
+        color: #333;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .info-table th,
+    .info-table td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+    .info-table th {
+        text-align: left;
+        font-weight: bold;
+        width: 40%;
+    }
+    .payslip-actions {
+        margin-top: 30px;
+        text-align: center;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
