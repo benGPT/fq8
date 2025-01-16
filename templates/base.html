@@ -32,10 +32,10 @@
     <div class="flex flex-col md:flex-row min-h-screen bg-gray-100">
         {% if session.get('user_id') %}
             <!-- Sidebar -->
-            <aside class="w-full md:w-64 bg-sky-500 shadow-md">
+            <aside class="w-full md:w-56 lg:w-64 bg-sky-500 shadow-md">
                 <div class="p-4">
                     <img src="https://www.miraclehealthcarerecruitment.co.uk/wp-content/uploads/2018/09/footerlogo.png" alt="Miracle Healthcare Recruitment Logo" class="h-16 mx-auto mb-4">
-                    <h2 class="text-2xl font-semibold text-white text-center">HROMS</h2>
+                    <h2 class="text-xl font-semibold text-white text-center">HROMS</h2>
                 </div>
                 <nav class="mt-4">
                     {% if session.get('role') == 'admin' %}
@@ -70,7 +70,7 @@
                     <a href="{{ url_for('logout') }}" class="block py-2 px-4 text-white hover:bg-sky-600">Logout</a>
                 </nav>
                 <div class="mt-8 p-4 text-white text-sm">
-                    <p>Contact Us:</p>
+                    <p class="font-bold">Contact Us:</p>
                     <p>Phone: +1 (123) 456-7890</p>
                     <p>Email: info@miraclehealthcare.com</p>
                     <p>Address: 123 Healthcare St, London, UK</p>
